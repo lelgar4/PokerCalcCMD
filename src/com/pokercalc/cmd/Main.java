@@ -12,6 +12,7 @@ public class Main
 
     public static final int numberOfPlayers;
     public static Card[][] otherPlayersHands;
+    public static boolean areOtherPlayersCardsKnown;
 
 
     static
@@ -32,20 +33,33 @@ public class Main
     public static void main(String[] args)
     {
 
-        while (true) {
-
+        while (true)
+        {
             Card userCard1 = inputCard(1, true);            //  USER, first card
+
             if(userCard1 == null){
     //TODO: ERROR MESSAGE about null card object
                 continue;
             }
 
             Card userCard2 = inputCard(2,true);             //  USER, second card
+
             if(userCard2 != null){
+
+                if(userCard1.getSuit().equals(userCard2.getSuit()) && userCard1.getRank() == userCard2.getRank()){
+                    //  TODO: ERROR MESSAGE for duplicate card input
+                    continue;
+                }
+                arraylistSelectedCards.add(userCard1);
+                arraylistSelectedCards.add(userCard2);
                 break;
 
             }else{  /*TODO: ERROR MESSAGE about null card object*/  }
         }
+
+
+//  get other players cards from user
+
     }
 
 
@@ -131,7 +145,7 @@ public class Main
                 }
             }
 
-            if(inputStrRank != null && inputSuit != null) {
+            if(inputSuit != null) {
                 return new Card(inputStrRank, inputSuit, hashmapRanksMain);
             }
 
@@ -144,6 +158,22 @@ public class Main
         }
 
         return null;
+    }
+
+
+//  iterates Card objects in arraylistSelectedCards and compares Suit and Rank attributes to see if the Suit/Rank pair has
+//  already been input by the user. Returns true if the input card's Suit/Rank pair matches any card found in arraylistSelectedCards,
+//  else returns false
+    public static boolean isAlreadySelected(Card inputCard)
+    {
+        for(Card c : arraylistSelectedCards)
+        {
+            if(Objects.equals(inputCard.getSuit(), c.getSuit()))
+            {
+                if(inputCard.getRank() == c.getRank())      {return true;}
+            }
+        }
+        return false;
     }
 
 
@@ -176,5 +206,34 @@ public class Main
         return false;
     }
 
+
+//
+    public static void setAreOtherPlayersCardsKnown()
+    {
+        while (true)
+        {
+            try
+            {
+                System.out.println("""
+                        Input whether or not OTHER players cards are known:\s
+                        Enter '0' if OTHER players cards are NOT known.
+                        Enter '1' if OTHER players cards ARE known.""");
+                Scanner s = new Scanner(System.in);
+                int scanBool = s.nextInt();
+
+                if(scanBool != 1 && scanBool != 0){
+                    throw new Exception("ERROR:\nInput MUST be '1' or '0'\nTry again.");
+                }
+
+                if(scanBool == 1)           {areOtherPlayersCardsKnown = true;}
+                else if(scanBool == 0)      {areOtherPlayersCardsKnown = false;}
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+
+        }
+    }
 
 }
