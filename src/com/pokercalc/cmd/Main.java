@@ -58,13 +58,20 @@ public class Main
         }
 
 
-//  get other players cards from user
+//  TODO: get other players cards from user
+
+
 
     }
 
 
 
-//  gets input from user to set number of players/hands
+/** ------------------------
+ *  inputNumberOfPlayers()
+ *  ------------------------
+ *      - gets input from user to set number of players/hands
+ **/
+
     public static int inputNumberOfPlayers()
     {
 
@@ -106,6 +113,11 @@ public class Main
     }
 
 
+/** ------------------------
+ *      inputCard()
+ *  ------------------------
+ *
+ **/
 
 //  TODO: utilize function params to change input instructions/println based on whose card is being input/whether its their first or second
     //  TODO: [?] use overridden function instead [?] -- one param for user for card number; second int 'playerCtr' param for others
@@ -161,9 +173,16 @@ public class Main
     }
 
 
-//  iterates Card objects in arraylistSelectedCards and compares Suit and Rank attributes to see if the Suit/Rank pair has
-//  already been input by the user. Returns true if the input card's Suit/Rank pair matches any card found in arraylistSelectedCards,
-//  else returns false
+
+/** ------------------------
+ *  isAlreadySelected()
+ *  ------------------------
+ *     -- iterates Card objects in arraylistSelectedCards and compares Suit and Rank attributes to see if the Suit/Rank pair has
+ *     already been input by the user.
+ *     -- Returns true if the input card's Suit/Rank pair matches any card found in arraylistSelectedCards,
+ *     else returns false
+ **/
+
     public static boolean isAlreadySelected(Card inputCard)
     {
         for(Card c : arraylistSelectedCards)
@@ -177,9 +196,14 @@ public class Main
     }
 
 
-//  tests if a string is a number by seeing if it can be parsed into an int.
-//  Returns TRUE if the string can be parsed into an int; returns FALSE if it cannot.
-//  Used for user input of card ranks in function inputCard()
+/** ------------------------
+ *      isNumeric()
+ *  ------------------------
+ *     -- tests if a string is a number by seeing if it can be parsed into an int.
+ *     -- Returns TRUE if the string can be parsed into an int; returns FALSE if it cannot.
+ *     -- Used for user input of card ranks in function inputCard()
+ **/
+
     public static boolean isNumeric(String s)
     {
         int i;
@@ -207,7 +231,12 @@ public class Main
     }
 
 
-//
+/** ------------------------
+ *  setAreOtherPlayersCardsKnown()
+ *  ------------------------
+ *
+ **/
+
     public static void setAreOtherPlayersCardsKnown()
     {
         while (true)

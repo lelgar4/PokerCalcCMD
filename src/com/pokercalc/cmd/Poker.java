@@ -71,9 +71,13 @@ public class Poker
     }
 
 
-//--------------------
-//      initializeHashMapRanks()
-//--------------------
+
+/** ------------------------
+ *  initializeHashMapRanks()
+ *  ------------------------
+ *
+ **/
+
     public static HashMap<Integer,String> initializeHashMapRanks()
     {
 //  initializes a hashmap which pairs int (hashmap Key) and String (hashmap value) versions of Card ranks, e.g. "TWO" == 2
@@ -89,9 +93,13 @@ public class Poker
     }
 
 
-//--------------------
-//      getters/setters
-//--------------------
+
+/** ------------------------
+ *      getters/setters
+ *  ------------------------
+ *
+ **/
+
     public static String getStringRank(int cardRank)                {return hashMapRanks.get(cardRank);}    //  TODO: DELETE?
     public static HashMap<Integer,String> getHashMapRanks()         {return hashMapRanks;}
 

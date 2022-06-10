@@ -3,6 +3,7 @@ package com.pokercalc.cmd;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class Card
 {
     private int rank;
@@ -25,7 +26,7 @@ public class Card
         this.strRank = cardStrRank;
     }
 
-    //      <<  NOT NECESSARY ?    >>
+    // TODO:      <<  NOT NECESSARY ?    >>
     public Card(String cardStrRank, String cardSuit, HashMap<Integer,String> hashMap)
     {
         this.suit = cardSuit;
