@@ -2,6 +2,9 @@ package com.pokercalc.cmd;
 
 import java.util.*;
 
+import static com.pokercalc.cmd.Utility.isNumeric;
+import static com.pokercalc.cmd.Utility.outputErrorMessage;
+
 public class Main
 {
     public static Card[] deckMain;
@@ -17,45 +20,61 @@ public class Main
 
     static
     {
-        System.out.println("Start static init");
-
         hashmapRanksMain = Poker.getHashMapRanks();
         deckMain = Poker.getPokerDeck();
         arraylistSelectedCards = new ArrayList<Card>();
         userHand = new Card[2];
         numberOfPlayers = inputNumberOfPlayers();
         otherPlayersHands = new Card[numberOfPlayers][2];
-        System.out.println("End static init");
     }
-
 
 
     public static void main(String[] args)
     {
-
         while (true)
         {
             Card userCard1 = inputCard(1, true);            //  USER, first card
 
-            if(userCard1 == null){
-    //TODO: ERROR MESSAGE about null card object
+            if(userCard1 == null)
+            {
+                outputErrorMessage("Null Card Object",
+                        "User Card object returned null. ",
+                        true);
+
                 continue;
             }
 
+            arraylistSelectedCards.add(userCard1);
+            userHand[0] = userCard1;
+            break;                                                      // Break WHILE loop for user card 1
+        }
+
+        while (true)
+        {
             Card userCard2 = inputCard(2,true);             //  USER, second card
 
-            if(userCard2 != null){
+            if(userCard2 == null)
+            {
+                outputErrorMessage("Null Card Object",
+                        "User Card object returned null. ",
+                        true);
 
-                if(userCard1.getSuit().equals(userCard2.getSuit()) && userCard1.getRank() == userCard2.getRank()){
-                    //  TODO: ERROR MESSAGE for duplicate card input
-                    continue;
-                }
-                arraylistSelectedCards.add(userCard1);
-                arraylistSelectedCards.add(userCard2);
-                break;
+                continue;
+            }
 
-            }else{  /*TODO: ERROR MESSAGE about null card object*/  }
-        }
+            else if(isAlreadySelected(userCard2))
+            {
+                outputErrorMessage("Duplicate Card Input",
+                        "A card with this Suit-Rank pair has already been input.",
+                        true);
+
+                continue;
+            }
+
+            arraylistSelectedCards.add(userCard2);
+            userHand[1] = userCard2;
+            break;
+            }
 
 
 //  TODO: get other players cards from user
@@ -113,6 +132,7 @@ public class Main
     }
 
 
+
 /** ------------------------
  *      inputCard()
  *  ------------------------
@@ -121,8 +141,9 @@ public class Main
 
 //  TODO: utilize function params to change input instructions/println based on whose card is being input/whether its their first or second
     //  TODO: [?] use overridden function instead [?] -- one param for user for card number; second int 'playerCtr' param for others
-    public static Card inputCard(int cardNumber, boolean isUser)
-    {
+
+        public static Card inputCard(int cardNumber, boolean isUser)
+        {
         String inputSuit = null;
         String inputStrRank = null;
 
@@ -196,73 +217,46 @@ public class Main
     }
 
 
-/** ------------------------
- *      isNumeric()
- *  ------------------------
- *     -- tests if a string is a number by seeing if it can be parsed into an int.
- *     -- Returns TRUE if the string can be parsed into an int; returns FALSE if it cannot.
- *     -- Used for user input of card ranks in function inputCard()
- **/
-
-    public static boolean isNumeric(String s)
-    {
-        int i;
-
-//  if string 's' is null or empty an error message is printed and function returns false
-        if(s == null || s.equals("")){
-            System.out.println("String is null/empty; can't be parsed.");
-            return false;
-        }
-
-//  parse string as int wrapped in try-catch; if string can't be parsed as int, NumberFormatException is caught
-//  and a notification is printed to console
-        try {
-
-//  if 's' is parsed as int and no NFE is thrown, the string is a number; function returns true
-            i = Integer.parseInt(s);
-            return true;
-
-        }catch (NumberFormatException nfe){
-            System.out.println("NumberFormatException thrown.\nInput string can't be parsed to integer/is NOT numeric.");
-        }
-
-//  return false after catch block; NFE was thrown, 's' is not numeric
-        return false;
-    }
-
 
 /** ------------------------
- *  setAreOtherPlayersCardsKnown()
+ *  inputAreOtherPlayersCardsKnown()
  *  ------------------------
  *
  **/
 
-    public static void setAreOtherPlayersCardsKnown()
+    public static boolean inputAreOtherPlayersCardsKnown()
     {
-        while (true)
-        {
-            try
-            {
+        int inputBoolInt = -1;
+
+        try {
+            while (true) {
                 System.out.println("""
                         Input whether or not OTHER players cards are known:\s
                         Enter '0' if OTHER players cards are NOT known.
                         Enter '1' if OTHER players cards ARE known.""");
-                Scanner s = new Scanner(System.in);
-                int scanBool = s.nextInt();
 
-                if(scanBool != 1 && scanBool != 0){
-                    throw new Exception("ERROR:\nInput MUST be '1' or '0'\nTry again.");
+                //TODO: create a function for scanner/input menus that works like outputErrorMessage() <?>
+
+                Scanner s = new Scanner(System.in);
+                inputBoolInt = s.nextInt();
+
+                if(inputBoolInt != 1 && inputBoolInt != 0)
+                {
+                    outputErrorMessage("Invalid Input Entered",
+                            "Input must be either a '0' or a '1'",
+                            true);
+                    continue;
                 }
 
-                if(scanBool == 1)           {areOtherPlayersCardsKnown = true;}
-                else if(scanBool == 0)      {areOtherPlayersCardsKnown = false;}
-
-            } catch (Exception e) {
-                e.printStackTrace();
-
+                else    {break;}
             }
 
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    }
 
+        if (inputBoolInt == 1)      {return true;}
+
+        else return false;
+    }
 }
