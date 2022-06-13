@@ -31,56 +31,16 @@ public class Main
 
     public static void main(String[] args)
     {
-        while (true)
+        int ctrUserCards = 0;
+        for(Card userCard: userHand)
         {
-            Card userCard1 = inputCard(1, true);            //  USER, first card
+            Card test_userCard = inputCard();
+            userHand[ctrUserCards] = test_userCard;
 
-            if(userCard1 == null)
-            {
-                outputErrorMessage("Null Card Object",
-                        "User Card object returned null. ",
-                        true);
-
-                continue;
-            }
-
-            arraylistSelectedCards.add(userCard1);
-            userHand[0] = userCard1;
-            break;                                                      // Break WHILE loop for user card 1
+            System.out.println("\n\n---------------------------\n" +
+                    "Added " + userHand[ctrUserCards].getRankStr() + " of " + userHand[ctrUserCards].getSuit() + " to hand.");
         }
-
-        while (true)
-        {
-            Card userCard2 = inputCard(2,true);             //  USER, second card
-
-            if(userCard2 == null)
-            {
-                outputErrorMessage("Null Card Object",
-                        "User Card object returned null. ",
-                        true);
-
-                continue;
-            }
-
-            else if(isAlreadySelected(userCard2))
-            {
-                outputErrorMessage("Duplicate Card Input",
-                        "A card with this Suit-Rank pair has already been input.",
-                        true);
-
-                continue;
-            }
-
-            arraylistSelectedCards.add(userCard2);
-            userHand[1] = userCard2;
-            break;
-            }
-
-
-//  TODO: get other players cards from user
-
-
-
+        
     }
 
 
@@ -161,7 +121,11 @@ public class Main
                         break WHILE_SUIT;
                     }
                 }
-                System.out.println("\n\nERROR: Input did not match any Suit\nEnter 'Clubs' 'Hearts' 'Diamonds' or 'Spades'\nTry again.\n\n");
+
+                outputErrorMessage("Invalid Suit Value Input",
+                        "Input did not match any valid suit values.\n" +
+                                "Suit MUST be 'HEARTS' 'DIAMONDS' SPADES' or 'CLUBS'",
+                        true);
             }
 
             while (true) {
@@ -176,6 +140,8 @@ public class Main
                 } else {
                     System.out.println("ERROR: Input contained integer(s)\nInput card rank as a String, e.g. 'TWO' or 'three.' Try again.");
                 }
+
+                //TODO: MISSING FOREACH ENUM_RANKS ???
             }
 
             if(inputSuit != null) {
@@ -191,6 +157,88 @@ public class Main
         }
 
         return null;
+    }
+
+
+
+/** ------------------------------------
+ *      inputCard()         [O/R -- no params]
+ *  ------------------------------------
+ *
+ **/
+
+    public static Card inputCard()
+    {
+        String inputSuit = null;
+        String inputStrRank = null;
+
+        try {
+            WHILE_SUIT: while(true)
+            {
+                System.out.println("""
+                        \n\n----------------------
+                        Input card Suit
+                        E.g., 'HEARTS' or 'SPADES'
+                        
+                        Suit:   """);
+
+                Scanner scanner = new Scanner(System.in);
+                String strInput = scanner.next().trim().toUpperCase();
+
+                for(Poker.ENUM_SUITS suit: Poker.ENUM_SUITS.values())
+                {
+                    if(strInput.equals(suit.toString())){
+                        inputSuit = suit.toString();
+                        break WHILE_SUIT;
+                    }
+                }
+
+                outputErrorMessage("Invalid Suit Value Input",
+                        "Input did not match any valid suit values.\n" +
+                                "Suit MUST be 'HEARTS' 'DIAMONDS' SPADES' or 'CLUBS'",
+                        true);
+            }
+
+            WHILE_RANK: while (true)
+            {
+                System.out.println("""
+                        \n\n----------------------
+                        Input card Rank as a String
+                        E.g., 'ACE' or 'THREE'
+                        
+                        Rank:   """);
+
+                Scanner scanner = new Scanner(System.in);
+                String strInput = scanner.next().trim().toUpperCase();
+
+                for(Poker.ENUM_RANKS rank : Poker.ENUM_RANKS.values())
+                {
+                    if(strInput.equals(rank.toString())){
+                        inputStrRank = rank.toString();
+                        break WHILE_RANK;
+                    }
+                }
+
+                if(isNumeric(strInput)){
+                    outputErrorMessage("Numeric Rank Value Input",
+                            "Input must be rank spelled out, e.g. 'ACE' or 'TWO' -- No numbers",
+                            true);
+
+                    continue;
+                }
+
+            //TODO: generic err msg?
+                outputErrorMessage("",
+                        "",
+                        true);
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new Card(inputStrRank,inputSuit,hashmapRanksMain);
     }
 
 

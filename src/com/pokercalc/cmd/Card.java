@@ -10,6 +10,9 @@ public class Card
     private String suit;
     private String strRank;
 
+
+    //TODO: Constructor function headers/documentation
+
     //  constructor w/ int rank and str suit params -- gets String rank from hMapRanks
     public Card(int cardRank,String cardSuit)
     {
@@ -31,20 +34,18 @@ public class Card
     {
         this.suit = cardSuit;
         this.strRank = cardStrRank;
+
         for (Map.Entry entry:hashMap.entrySet())
         {
-            System.out.println(entry.getKey());
-            System.out.println(entry.getValue());
-            System.out.println(entry);
-            if(cardStrRank == entry.getValue()){
-                System.out.println("constructor...");
-                System.out.println(cardStrRank + "//" + entry.getValue() + "//" + entry.getKey());
+            if(cardStrRank == entry.getValue())
+            {
                 this.rank = (int) entry.getKey();
             }
         }
-        System.out.println("end constructor");
+
         //this.rank = hMapRanks.keySet()             //  how to get hashMap KEY (int rank) that corresponds to a known VALUE (str rank)
     }
+
 
     //  getters + setters for class vars
     public int getRank()                     {return rank;}
