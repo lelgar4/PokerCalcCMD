@@ -31,7 +31,6 @@ public class Main
 
     public static void main(String[] args)
     {
-<<<<<<< HEAD
         int ctrUserCards = 0;
         for(Card userCard: userHand)
         {
@@ -42,7 +41,6 @@ public class Main
                     "Added " + userHand[ctrUserCards].getRankStr() + " of " + userHand[ctrUserCards].getSuit() + " to hand.");
         }
         
-=======
         while (true)
         {
             Card userCard1 = inputCard(1, true);            //  USER, first card
@@ -92,8 +90,6 @@ public class Main
 //  TODO: get other players cards from user
 
 
-
->>>>>>> f63ffb5850754c3a75b3c86aa0bbebbf1cb1078d
     }
 
 
