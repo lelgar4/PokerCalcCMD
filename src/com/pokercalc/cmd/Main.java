@@ -36,55 +36,12 @@ public class Main
         {
             Card test_userCard = inputCard();
             userHand[ctrUserCards] = test_userCard;
+            arraylistSelectedCards.add(test_userCard);
 
             System.out.println("\n\n---------------------------\n" +
                     "Added " + userHand[ctrUserCards].getRankStr() + " of " + userHand[ctrUserCards].getSuit() + " to hand.");
         }
-        
-        while (true)
-        {
-            Card userCard1 = inputCard(1, true);            //  USER, first card
 
-            if(userCard1 == null)
-            {
-                outputErrorMessage("Null Card Object",
-                        "User Card object returned null. ",
-                        true);
-
-                continue;
-            }
-
-            arraylistSelectedCards.add(userCard1);
-            userHand[0] = userCard1;
-            break;                                                      // Break WHILE loop for user card 1
-        }
-
-        while (true)
-        {
-            Card userCard2 = inputCard(2,true);             //  USER, second card
-
-            if(userCard2 == null)
-            {
-                outputErrorMessage("Null Card Object",
-                        "User Card object returned null. ",
-                        true);
-
-                continue;
-            }
-
-            else if(isAlreadySelected(userCard2))
-            {
-                outputErrorMessage("Duplicate Card Input",
-                        "A card with this Suit-Rank pair has already been input.",
-                        true);
-
-                continue;
-            }
-
-            arraylistSelectedCards.add(userCard2);
-            userHand[1] = userCard2;
-            break;
-            }
 
 
 //  TODO: get other players cards from user
