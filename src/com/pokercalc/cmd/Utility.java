@@ -1,5 +1,9 @@
 package com.pokercalc.cmd;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class Utility
 {
 
@@ -74,5 +78,47 @@ public class Utility
         sbOutput.append(sbErrorBorder).append("\n");
 
         System.out.println(sbOutput);
+    }
+
+
+
+/** ------------------------
+ *      outputMenu()
+ *  ------------------------
+ *      //todo: documentation
+ **/
+    public static void outputMenu(String menuHeader, String[] menuOptions)
+    {
+        ArrayList<String> strings = (ArrayList<String>) Arrays.asList(menuOptions);
+        strings.add(menuHeader);
+        int lengthMenuBorder = getMaxLength_StringsArr(strings);
+
+        StringBuilder sbMenuBorder = new StringBuilder("=");
+
+        while(sbErrorBorder.length() <= lengthErrorBorder + 2){
+            sbErrorBorder.append('=');
+        }
+
+    }
+
+
+
+/** -----------------------------
+ *      getMaxLength_StringsArr()
+ *  -----------------------------
+ *      //todo: documentation
+ **/
+    public static int getMaxLength_StringsArr(ArrayList<String> strings)
+    {
+        String max = "";
+
+        for(String s : strings)
+        {
+            if(s.length() > max.length()){
+                max = s;
+            }
+        }
+
+        return max.length();
     }
 }

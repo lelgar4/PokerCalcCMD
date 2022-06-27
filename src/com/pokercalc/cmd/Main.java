@@ -18,33 +18,88 @@ public class Main
     public static boolean areOtherPlayersCardsKnown;
 
 
+//  Static block calls various functions to initiate global vars
     static
     {
         hashmapRanksMain = Poker.getHashMapRanks();
         deckMain = Poker.getPokerDeck();
+
+//  create an arraylist of Card objects; used to track which cards have already been input by the user
         arraylistSelectedCards = new ArrayList<Card>();
+
+//  an array of Card objects used to represent the user's hand
         userHand = new Card[2];
+
         numberOfPlayers = inputNumberOfPlayers();
+
+//  a 3D array of Card objects used to represent all other players' hands
         otherPlayersHands = new Card[numberOfPlayers][2];
     }
 
 
     public static void main(String[] args)
     {
-        int ctrUserCards = 0;
+        int ctrCards = 0;
         for(Card userCard: userHand)
         {
-            Card test_userCard = inputCard();
-            userHand[ctrUserCards] = test_userCard;
-            arraylistSelectedCards.add(test_userCard);
+//  while loop validates Card input by user hasn't already been input/isn't already in arraylistSelectedCards
+            WHILE: while (true)
+            {
+                Card test_inputCard = inputCard();
+
+//  if this isn't the first card being input AND isAlreadySelected() returns true when passed the card the user just input
+                if(ctrCards > 0 && isAlreadySelected(test_inputCard))
+                {
+//  output error message and continue loop to force user to input a different Suit-Rank combination
+                    outputErrorMessage("Duplicate Card Entered",
+                            "A card has already been input with this Suit-Rank combination",
+                            true);
+
+                    continue WHILE;
+                }
+
+                else
+                {
+                    userHand[ctrCards] = test_inputCard;
+                    arraylistSelectedCards.add(userHand[ctrCards]);
+                    break WHILE;
+                }
+            }
 
             System.out.println("\n\n---------------------------\n" +
-                    "Added " + userHand[ctrUserCards].getRankStr() + " of " + userHand[ctrUserCards].getSuit() + " to hand.");
+                    "Added " + userHand[ctrCards].getRankStr() + " of " + userHand[ctrCards].getSuit() + " to hand.");
+
+            ctrCards++;
         }
 
 
+//  TODO: documentation above why other players cards would be known
+//      --  calculate specific probabilities of your hand winning vs other hands
+//      --  j
 
-//  TODO: get other players cards from user
+        if (areOtherPlayersCardsKnown)
+        {
+            ctrCards = 0;
+            int ctrHands = 0;
+
+//  outer foreach loop for players' hands
+            for(Card[] playerHand : otherPlayersHands)
+            {
+//  inner foreach loop for cards in each hand
+                for(Card playerCard : playerHand)
+                {
+                    otherPlayersHands[ctrHands][ctrCards] = inputCard();
+                    arraylistSelectedCards.add(otherPlayersHands[ctrHands][ctrCards]);
+
+                    ctrCards++;
+                }
+
+//  set card ctr var back to 0 and increment hand ctr var before next outer foreach iteration
+                ctrCards = 0;
+                ctrHands++;
+            }
+        }
+
 
 
     }
@@ -71,23 +126,35 @@ public class Main
                 Scanner scanner = new Scanner(System.in);
                 numberOfPlayers = scanner.nextInt();
 
+                //TODO: implement isNumeric() to validate input?
+
 //  Must have more than 1 players; if user inputs '1' then an exception is thrown, an error message is printed,
 //  and the while loop is continued
                 if(numberOfPlayers <= 1){
-                    throw new Exception("ERROR: Invalid input\nNumber of players must be greater than 1.\nTry again.");
+                    //throw new Exception("ERROR: Invalid input\nNumber of players must be greater than 1.\nTry again.");
+                    outputErrorMessage("Invalid Input for Number of Players",
+                            "Number of players must be greater than 1.",
+                            true);
+                    continue;
                 }
 
 //  Max number of players is 10; does the same as if block above for '10'
                 if (numberOfPlayers > 10){
-                    throw new Exception("ERROR: Invalid input\nNumber of players must be less than or equal to 10.\nTry again.");
+                    //throw new Exception("ERROR: Invalid input\nNumber of players must be less than or equal to 10.\nTry again.");
+                    outputErrorMessage("Invalid Input for Number of Players",
+                            "Number of players must be less than or equal to 10.",
+                            true);
+                    continue;
                 }
 
 //  catch block for non-numeric input
             } catch (InputMismatchException ime) {
-                System.out.println("ERROR: InputMismatchException thrown\nInput must be an integer. Try again.\n");
+                outputErrorMessage("InputMismatchException thrown",
+                        "Input must be an integer.",
+                        true);
                 continue;
 
-//  generic Exception catch block used for <=1 / >10 input validation above
+//  generic Exception catch block
             } catch (Exception e) {
                 e.printStackTrace();
                 continue;
@@ -267,6 +334,7 @@ public class Main
                 if(inputCard.getRank() == c.getRank())      {return true;}
             }
         }
+
         return false;
     }
 
@@ -275,7 +343,7 @@ public class Main
 /** ------------------------
  *  inputAreOtherPlayersCardsKnown()
  *  ------------------------
- *
+ *      //todo: documentation
  **/
 
     public static boolean inputAreOtherPlayersCardsKnown()
@@ -287,7 +355,7 @@ public class Main
                 System.out.println("""
                         Input whether or not OTHER players cards are known:\s
                         Enter '0' if OTHER players cards are NOT known.
-                        Enter '1' if OTHER players cards ARE known.""");
+                        Enter '1' if OTHER players cards ARE known.\n""");
 
                 //TODO: create a function for scanner/input menus that works like outputErrorMessage() <?>
 
