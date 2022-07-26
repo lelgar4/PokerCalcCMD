@@ -1,7 +1,6 @@
 package com.pokercalc.cmd;
 
 import java.util.*;
-
 import static com.pokercalc.cmd.Utility.isNumeric;
 import static com.pokercalc.cmd.Utility.outputErrorMessage;
 
