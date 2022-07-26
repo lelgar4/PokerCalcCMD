@@ -33,7 +33,7 @@ public class Main
     {
         while (true)
         {
-            Card userCard1 = inputCard(1, true);            //  USER, first card
+            Card userCard1 = inputCard();            //  USER, first card
 
             if(userCard1 == null)
             {
@@ -51,7 +51,7 @@ public class Main
 
         while (true)
         {
-            Card userCard2 = inputCard(2,true);             //  USER, second card
+            Card userCard2 = inputCard();             //  USER, second card
 
             if(userCard2 == null)
             {
@@ -81,7 +81,28 @@ public class Main
 
 
 
+
     }
+
+    /**     ---------------------------------------
+     *          Functions -- Table of Contents
+     *      ---------------------------------------
+     *
+     *      1.inputNumberofPlayers()
+     *
+     *      2.inputCard()
+     *
+     *      3. isAlreadySelected(Card inputCard)
+     *          -- iterates Card objects in arraylistSelectedCards and compares Suit and Rank attributes to see if
+     *              the Suit/Rank pair input by the user has already been used.
+     *          -- returns: boolean :: true if card has already been input by user / is in arraylistAlreadySelected<Card>
+     *
+     *      4. inputAreOtherPlayersCardsKnown()
+     *          -- get input from user to set whether other players cards are known or not
+     *          -- returns: boolean :: true if other players cards ARE known
+     *
+     */
+
 
 
 
@@ -142,7 +163,7 @@ public class Main
 //  TODO: utilize function params to change input instructions/println based on whose card is being input/whether its their first or second
     //  TODO: [?] use overridden function instead [?] -- one param for user for card number; second int 'playerCtr' param for others
 
-        public static Card inputCard(int cardNumber, boolean isUser)
+        public static Card inputCard()
         {
         String inputSuit = null;
         String inputStrRank = null;
@@ -228,8 +249,9 @@ public class Main
     {
         int inputBoolInt = -1;
 
-        try {
-            while (true) {
+        while (true)
+        {
+            try {
                 System.out.println("""
                         Input whether or not OTHER players cards are known:\s
                         Enter '0' if OTHER players cards are NOT known.
@@ -240,23 +262,22 @@ public class Main
                 Scanner s = new Scanner(System.in);
                 inputBoolInt = s.nextInt();
 
-                if(inputBoolInt != 1 && inputBoolInt != 0)
-                {
+                if (inputBoolInt != 1 && inputBoolInt != 0) {
                     outputErrorMessage("Invalid Input Entered",
                             "Input must be either a '0' or a '1'",
                             true);
                     continue;
+                } else {
+                    break;
                 }
-
-                else    {break;}
             }
+            catch(Exception e){
+                e.printStackTrace();
 
-        } catch (Exception e) {
-            e.printStackTrace();
+            }
         }
 
-        if (inputBoolInt == 1)      {return true;}
-
-        else return false;
+        //  if user input '1', inputBoolInt == 1 returns true, if user input '0' it returns false
+        return inputBoolInt == 1;
     }
 }
