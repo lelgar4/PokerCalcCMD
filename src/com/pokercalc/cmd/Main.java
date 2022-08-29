@@ -25,6 +25,7 @@ public class Main
         userHand = new Card[2];
         numberOfPlayers = inputNumberOfPlayers();
         otherPlayersHands = new Card[numberOfPlayers][2];
+        areOtherPlayersCardsKnown = inputAreOtherPlayersCardsKnown();
     }
 
 
@@ -78,7 +79,10 @@ public class Main
 
 //  TODO: get other players cards from user
 
-
+        if(areOtherPlayersCardsKnown)
+        {
+            inputOtherPlayersCards();
+        }
 
 
     }
@@ -115,8 +119,8 @@ public class Main
     {
 
 //  while loop used for input validation; loop continues until user enters a valid integer, 2 - 10
-        while (true) {
-
+        while (true)
+        {
             int numberOfPlayers = 0;
 
 //  user input wrapped in try-catch to use thrown exceptions catch-blocks for printing error messages and continuing while loop
@@ -127,12 +131,14 @@ public class Main
 
 //  Must have more than 1 players; if user inputs '1' then an exception is thrown, an error message is printed,
 //  and the while loop is continued
-                if(numberOfPlayers <= 1){
+                if(numberOfPlayers <= 1)
+                {
                     throw new Exception("ERROR: Invalid input\nNumber of players must be greater than 1.\nTry again.");
                 }
 
 //  Max number of players is 10; does the same as if block above for '10'
-                if (numberOfPlayers > 10){
+                if (numberOfPlayers > 10)
+                {
                     throw new Exception("ERROR: Invalid input\nNumber of players must be less than or equal to 10.\nTry again.");
                 }
 
@@ -176,7 +182,8 @@ public class Main
 
                 for(Poker.ENUM_SUITS suit : Poker.ENUM_SUITS.values())
                 {
-                    if(scanSuit.equals(suit.toString())) {
+                    if(scanSuit.equals(suit.toString()))
+                    {
                         inputSuit = suit.toString();
                         break WHILE_SUIT;
                     }
@@ -184,27 +191,30 @@ public class Main
                 System.out.println("\n\nERROR: Input did not match any Suit\nEnter 'Clubs' 'Hearts' 'Diamonds' or 'Spades'\nTry again.\n\n");
             }
 
-            while (true) {
+            while (true)
+            {
                 System.out.println("Input the [RANK] spelled out, NOT as a number (e.g. 'Ace' or 'Two') for the first card in your hand: ");
                 Scanner scanner = new Scanner(System.in);
                 String scanStrRank = scanner.next();
 
-                if (!isNumeric(scanStrRank)) {
+                if (!isNumeric(scanStrRank))
+                {
                     inputStrRank = scanStrRank.trim().toUpperCase();
                     break;
+                }
 
-                } else {
+                else
+                {
                     System.out.println("ERROR: Input contained integer(s)\nInput card rank as a String, e.g. 'TWO' or 'three.' Try again.");
                 }
             }
 
-            if(inputSuit != null) {
+            if(inputSuit != null)
+            {
                 return new Card(inputStrRank, inputSuit, hashmapRanksMain);
             }
 
-            else{
-                return null;
-            }
+            else        {return null;}
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -261,14 +271,15 @@ public class Main
                 Scanner s = new Scanner(System.in);
                 inputBoolInt = s.nextInt();
 
-                if (inputBoolInt != 1 && inputBoolInt != 0) {
+                if (inputBoolInt != 1 && inputBoolInt != 0)
+                {
                     outputErrorMessage("Invalid Input Entered",
                             "Input must be either a '0' or a '1'",
                             true);
                     continue;
-                } else {
-                    break;
                 }
+
+                else {break;}
             }
             catch(Exception e){
                 e.printStackTrace();
@@ -278,5 +289,43 @@ public class Main
 
         //  if user input '1', inputBoolInt == 1 returns true, if user input '0' it returns false
         return inputBoolInt == 1;
+    }
+
+
+
+    public static void inputOtherPlayersCards()
+    {
+        for(int ctrPlayer = 0; ctrPlayer < numberOfPlayers - 1; ctrPlayer++)
+        {
+            for (int ctrCard = 0; ctrCard < 2; ctrCard++)
+            {
+                while (true)
+                {
+                    Card card = inputCard();
+
+                    if(card == null)
+                    {
+                        outputErrorMessage("Null Card Object",
+                                "Card object returned null. ",
+                                true);
+
+                        continue;
+                    }
+
+                    else if(isAlreadySelected(card))
+                    {
+                        outputErrorMessage("Duplicate Card Input",
+                                "A card with this Suit-Rank pair has already been input.",
+                                true);
+
+                        continue;
+                    }
+
+                    arraylistSelectedCards.add(card);
+                    otherPlayersHands[ctrPlayer][ctrCard] = card;
+                    break;                                                      // Break WHILE loop for user card 1
+                }
+            }
+        }
     }
 }

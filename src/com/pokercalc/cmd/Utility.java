@@ -16,7 +16,8 @@ public class Utility
         int i;
 
 //  if string 's' is null or empty an error message is printed and function returns false
-        if(s == null || s.equals("")){
+        if(s == null || s.equals(""))
+        {
             System.out.println("String is null/empty; can't be parsed.");
             return false;
         }
@@ -30,6 +31,7 @@ public class Utility
             return true;
 
         }catch (NumberFormatException nfe){
+            //  TODO: Exception handling
             System.out.println("NumberFormatException thrown.\nInput string can't be parsed to integer/is NOT numeric.");
         }
 
@@ -57,7 +59,8 @@ public class Utility
         int lengthErrorBorder = Math.max(errorHeader.length(),errorBody.length());
         StringBuilder sbErrorBorder = new StringBuilder("=");
 
-        while(sbErrorBorder.length() <= lengthErrorBorder + 2){
+        while(sbErrorBorder.length() <= lengthErrorBorder + 2)
+        {
             sbErrorBorder.append('=');
         }
 
@@ -67,7 +70,8 @@ public class Utility
                 .append(sbErrorBorder.toString().replace('=','-')).append("\n")
                 .append(errorBody).append("\n");
 
-        if(includesTryAgain){
+        if(includesTryAgain)
+        {
             sbOutput.append("Try again.\n");
         }
 

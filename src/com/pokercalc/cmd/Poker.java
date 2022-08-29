@@ -85,7 +85,8 @@ public class Poker
         int rankCtr = 2;                                    //  counter for int ranks, starting at lowest value 2
 
 //  gets String value for each enum in ENUM_VALS.
-        for (ENUM_RANKS enumRanks : ENUM_RANKS.values()){
+        for (ENUM_RANKS enumRanks : ENUM_RANKS.values())
+        {
             map.put(rankCtr,enumRanks.toString());                  //  String and corresponding int are added as map entries
             rankCtr++;
         }

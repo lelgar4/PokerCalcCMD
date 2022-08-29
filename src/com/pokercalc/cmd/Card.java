@@ -2,6 +2,7 @@ package com.pokercalc.cmd;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class Card
@@ -31,19 +32,14 @@ public class Card
     {
         this.suit = cardSuit;
         this.strRank = cardStrRank;
-        for (Map.Entry entry:hashMap.entrySet())
+
+        for (Map.Entry<Integer,String> entry:hashMap.entrySet())
         {
-            System.out.println(entry.getKey());
-            System.out.println(entry.getValue());
-            System.out.println(entry);
-            if(cardStrRank == entry.getValue()){
-                System.out.println("constructor...");
-                System.out.println(cardStrRank + "//" + entry.getValue() + "//" + entry.getKey());
+            if(Objects.equals(cardStrRank, entry.getValue()))
+            {
                 this.rank = (int) entry.getKey();
             }
         }
-        System.out.println("end constructor");
-        //this.rank = hMapRanks.keySet()             //  how to get hashMap KEY (int rank) that corresponds to a known VALUE (str rank)
     }
 
     //  getters + setters for class vars
